@@ -2,7 +2,7 @@
 Simple auto rent company server
 
 <p align="center">
-<img src=rent-company-logo.jpeg width=50% height=50%>
+<img src=rent-company-logo.jpeg width=30% height=30%>
 </p>
 
 ### Project description
@@ -14,7 +14,7 @@ API can be easily managed via Swagger UI. The project is built on monolith archi
 ### DB Diagram
 
 <p align="center">
-<img src=rent-company-db-diagram.png width=100% height=100%>
+<img src=rent-company-db-diagram.png width=50% height=50%>
 </p>
 
 ### Tech stack
