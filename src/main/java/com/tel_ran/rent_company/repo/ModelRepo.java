@@ -21,7 +21,7 @@ public interface ModelRepo extends JpaRepository<Model, Long> {
             "join (select r.reg_number, count(*) as count from records as r " +
             "group by r.reg_number) count_records_for_reg_number as counter on r.reg_number = counter.reg_number " +
             "group by c.model_id " +
-            "having (case(r.rent_date as date)) between :from and :to and " +
+            "having (cast(r.rent_date as date)) between :from and :to and " +
             "d.birth_year > :fromYear and d.birth_year < :toYear and " +
             "count = max(count)", nativeQuery = true)
     List<Model> findMostPopularModels(LocalDate from, LocalDate to, int fromYear, int toYear);
@@ -33,7 +33,7 @@ public interface ModelRepo extends JpaRepository<Model, Long> {
             "join (select r.reg_number, sum(cost) as sum from records as r " +
             "group by r.reg_number) count_cost as counter on r.reg_number = counter.reg_number " +
             "group by c.model_id " +
-            "having (case(r.rent_date as date)) between :from and :to and " +
+            "having (cast(r.rent_date as date)) between :from and :to and " +
             "sum = max(sum)", nativeQuery = true)
     List<Model> findMostProfitableModels(LocalDate from, LocalDate to);
 }

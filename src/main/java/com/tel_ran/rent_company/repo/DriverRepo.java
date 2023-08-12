@@ -20,8 +20,9 @@ public interface DriverRepo extends JpaRepository<Driver, Long> {
     List<Driver> findDriversByCar(String regNumber);
 
     @Query(value = "select * from drivers as d " +
-            "join (select r.license_id, count(*) as count from records as r " +
-            "group by r.license_id) count_records_for_license_id as counter on d.license_id = counter.license_id " +
-            "where count = max(count)", nativeQuery = true)
+            "join (select r.driver_id, count(*) as count from records as r " +
+            "group by r.driver_id) counter on d.id = counter.driver_id " +
+            "where counter.count = (select max(count) from " +
+            "(select count(*) as count from records group by driver_id) sub)", nativeQuery = true)
     List<Driver> findMostActiveDrivers();
 }

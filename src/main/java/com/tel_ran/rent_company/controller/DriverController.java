@@ -36,16 +36,14 @@ public class DriverController {
     }
 
     @ApiOperation(value = "Find driver by license id")
-    @GetMapping(value = DRIVER_DRIVER_PATH + "/{license_id}")
-    public DriverDto getDriverDataByLicenseId(@PathVariable(name = "license_id") Long licenseId) {
+    @GetMapping(value = DRIVER_DRIVER_PATH)
+    public DriverDto getDriverDataByLicenseId(@RequestParam(name = "license_id") Long licenseId) {
         return driverService.getDriverDataByLicenseId(licenseId);
     }
 
     @ApiOperation(value = "Find drivers who rented certain car")
-    @GetMapping(value = DRIVER_DRIVER_PATH + "/{reg_number}")
-    public List<DriverDto> driversByCar(@PathVariable(name = "reg_number") String regNumber) {
+    @GetMapping(value = DRIVER_DRIVER_PATH + "/car")
+    public List<DriverDto> driversByCar(@RequestParam(name = "reg_number") String regNumber) {
         return driverService.driversByCar(regNumber);
     }
-
-
 }

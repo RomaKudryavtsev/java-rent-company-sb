@@ -59,7 +59,7 @@ public class DriverServiceImpl implements IDriverService {
     }
 
     private void checkIfDriverExists(Long licenseId) {
-        if (driverRepo.existsByLicenseId(licenseId)) {
+        if (!driverRepo.existsByLicenseId(licenseId)) {
             throw new DriverNotFoundException("Driver does not exist");
         }
     }

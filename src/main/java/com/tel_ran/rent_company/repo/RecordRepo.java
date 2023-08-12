@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface RecordRepo extends JpaRepository<RentRecord, Long> {
     @Query(value = "select * from records as r" +
-            "where (case(r.rent_date as date)) between :from and :to",
+            "where (cast(r.rent_date as date)) between :from and :to",
             nativeQuery = true)
     List<RentRecord> findAllRecordsBetweenRentDates(LocalDate from, LocalDate to);
 
