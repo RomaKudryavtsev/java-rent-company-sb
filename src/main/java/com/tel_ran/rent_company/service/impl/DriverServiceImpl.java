@@ -9,6 +9,7 @@ import com.tel_ran.rent_company.util.DriverMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class DriverServiceImpl implements IDriverService {
     public DriverDto addDriver(DriverDto driverDto) {
         checkIfDriverExists(driverDto.getLicenseId());
         Driver driverToBeAdded = DriverMapper.dtoToEntity(driverDto);
+        driverToBeAdded.setRecords(new ArrayList<>());
         return DriverMapper.entityToDto(driverRepo.save(driverToBeAdded));
     }
 

@@ -14,6 +14,7 @@ import com.tel_ran.rent_company.util.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ public class CarServiceImpl implements ICarService {
         carToBeAdded.setToBeRemoved(false);
         carToBeAdded.setState(State.EXCELLENT);
         carToBeAdded.setModel(modelRepo.findByModelName(addCarRequestDto.getModelName()));
+        carToBeAdded.setRecords(new ArrayList<>());
         return CarMapper.entityToResponseDto(carRepo.save(carToBeAdded));
     }
 
