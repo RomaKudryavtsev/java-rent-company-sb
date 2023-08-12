@@ -16,9 +16,8 @@ import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.util.CarMapper;
 import com.tel_ran.rent_company.util.RecordMapper;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,16 +27,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CarServiceImpl implements ICarService {
-    @Value("${rent.date.format}")
-    String format;
-    @Autowired
     CarRepo carRepo;
-    @Autowired
     ModelRepo modelRepo;
-    @Autowired
     RecordRepo recordRepo;
+    DateTimeFormatter formatter;
 
     @Transactional
     @Override
@@ -68,7 +64,7 @@ public class CarServiceImpl implements ICarService {
             carRepo.delete(carToBeDeleted);
             return new RemoveCarDto(CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber)),
                     recordsToBeRemoved.stream()
-                            .map(r -> RecordMapper.entityToRecordDto(r, DateTimeFormatter.ofPattern(format)))
+                            .map(r -> RecordMapper.entityToRecordDto(r, formatter))
                             .collect(Collectors.toList()));
         }
     }

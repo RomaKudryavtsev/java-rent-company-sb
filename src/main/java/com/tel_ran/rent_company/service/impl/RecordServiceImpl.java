@@ -17,8 +17,8 @@ import com.tel_ran.rent_company.service.IRecordService;
 import com.tel_ran.rent_company.util.DateUtil;
 import com.tel_ran.rent_company.util.RecordMapper;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,22 +30,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RecordServiceImpl implements IRecordService {
     @Value("${rent.fine.percent}")
     Integer finePercent;
     @Value("${rent.gas.price}")
     int gasPrice;
-    //TODO: fix formatter issue
-    @Value("${rent.date.format}")
-    String format;
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-    @Autowired
-    CarRepo carRepo;
-    @Autowired
-    DriverRepo driverRepo;
-    @Autowired
-    RecordRepo recordRepo;
+    final CarRepo carRepo;
+    final DriverRepo driverRepo;
+    final RecordRepo recordRepo;
+    final DateTimeFormatter formatter;
 
     @Transactional
     @Override
@@ -77,7 +72,7 @@ public class RecordServiceImpl implements IRecordService {
     public List<RecordDto> getRecords(String fromDate, String toDate) {
         LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
         return recordRepo.findAllRecordsBetweenRentDates(dates[0], dates[1]).stream()
-                .map(r -> RecordMapper.entityToRecordDto(r, DateTimeFormatter.ofPattern(format)))
+                .map(r -> RecordMapper.entityToRecordDto(r, formatter))
                 .collect(Collectors.toList());
     }
 

@@ -9,9 +9,8 @@ import com.tel_ran.rent_company.service.IModelService;
 import com.tel_ran.rent_company.util.DateUtil;
 import com.tel_ran.rent_company.util.ModelMapper;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +21,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ModelServiceImpl implements IModelService {
-    //TODO: fix formatter issue
-    @Value("${rent.date.format}")
-    String format;
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-    @Autowired
+    DateTimeFormatter formatter;
     ModelRepo modelRepo;
 
     @Transactional

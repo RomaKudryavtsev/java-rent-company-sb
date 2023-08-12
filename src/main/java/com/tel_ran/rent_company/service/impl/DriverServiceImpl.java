@@ -8,8 +8,8 @@ import com.tel_ran.rent_company.repo.DriverRepo;
 import com.tel_ran.rent_company.service.IDriverService;
 import com.tel_ran.rent_company.util.DriverMapper;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DriverServiceImpl implements IDriverService {
-    @Autowired
     DriverRepo driverRepo;
 
     @Transactional
