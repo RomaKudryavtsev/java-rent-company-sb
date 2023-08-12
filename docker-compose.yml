@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  rent-company-server:
+    build: .
+    image: rent-company-server
+    container_name: rent-company-server
+    hostname: rent-company-sb
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rent-company-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://rent-company-db:5432/rent_company
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+  rent-company-db:
+    image: postgres:14-alpine
+    container_name: rent-company-db
+    hostname: rent-company-db
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=rent_company
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+
