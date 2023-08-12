@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class RecordMapper {
 
-    public static RentRecord rentCarDtoToEntity(RentCarDto rentCarDto, DateTimeFormatter formatter) {
+    public static RentRecord rentCarDtoToEntity(RentCarDto rentCarDto) {
         RentRecord rentRecord = new RentRecord();
         rentRecord.setRentDays(rentCarDto.getRentDays());
         return rentRecord;
@@ -30,9 +30,9 @@ public class RecordMapper {
                 .rentDate(rentRecord.getRentDate() == null ? "" : rentRecord.getRentDate().format(formatter))
                 .returnDate(rentRecord.getReturnDate() == null ? "" : rentRecord.getReturnDate().format(formatter))
                 .rentDays(rentRecord.getRentDays())
-                .damages(rentRecord.getDamages() == null ? -1 : rentRecord.getDamages())
-                .tankPercent(rentRecord.getTankPercent() == null ? -1 : rentRecord.getDamages())
-                .cost(rentRecord.getCost() == null ? -1 : rentRecord.getCost())
+                .damages(rentRecord.getDamages() == null ? 0 : rentRecord.getDamages())
+                .tankPercent(rentRecord.getTankPercent() == null ? 100 : rentRecord.getDamages())
+                .cost(rentRecord.getCost() == null ? 0 : rentRecord.getCost())
                 .regNumber(rentRecord.getCar().getRegNumber())
                 .licenseId(rentRecord.getDriver().getLicenseId())
                 .build();

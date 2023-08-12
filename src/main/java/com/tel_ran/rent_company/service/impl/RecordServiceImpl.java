@@ -70,8 +70,8 @@ public class RecordServiceImpl implements IRecordService {
         int damages = returnDto.getDamages();
         checkRecord(licenseId, regNumber);
         Car car = carRepo.findByRegNumber(regNumber);
-        RentRecord rentRecordFound = updateRecordOnReturn(licenseId, regNumber, returnDto);
-        RecordDto res = RecordMapper.entityToRecordDto(recordRepo.save(rentRecordFound), formatter);
+        RentRecord updatedRecord = updateRecordOnReturn(licenseId, regNumber, returnDto);
+        RecordDto res = RecordMapper.entityToRecordDto(recordRepo.save(updatedRecord), formatter);
         updateCarOnReturn(car, damages);
         return res;
     }
@@ -120,7 +120,7 @@ public class RecordServiceImpl implements IRecordService {
     }
 
     private RentRecord setNewRecordOnRent(RentCarDto rentDto, DateTimeFormatter formatter, Car car) {
-        RentRecord record = RecordMapper.rentCarDtoToEntity(rentDto, formatter);
+        RentRecord record = RecordMapper.rentCarDtoToEntity(rentDto);
         LocalDate rentDate = DateUtil.parseDate(rentDto.getRentDate(), formatter);
         record.setRentDate(rentDate);
         Driver driver = driverRepo.findByLicenseId(rentDto.getLicenseId());

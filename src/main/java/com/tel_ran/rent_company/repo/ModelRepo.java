@@ -14,26 +14,29 @@ public interface ModelRepo extends JpaRepository<Model, Long> {
 
     Model findByModelName(String modelName);
 
-    @Query(value = "select * from models as m " +
+    @Query(value = "select m.* from models as m " +
             "join cars as c on m.id = c.model_id " +
             "join records as r on c.id = r.car_id " +
             "join drivers as d on d.id = r.driver_id " +
-            "join (select r.reg_number, count(*) as count from records as r " +
-            "group by r.reg_number) count_records_for_reg_number as counter on r.reg_number = counter.reg_number " +
-            "group by c.model_id " +
-            "having (cast(r.rent_date as date)) between :from and :to and " +
-            "d.birth_year > :fromYear and d.birth_year < :toYear and " +
-            "count = max(count)", nativeQuery = true)
+            "join (select r.car_id, count(*) as count from records as r " +
+            "group by r.car_id) counter on r.car_id = counter.car_id " +
+            "where (cast(r.rent_date as date)) between :from and :to and " +
+            "d.birth_year < :fromYear and d.birth_year > :toYear " +
+            "group by m.id " +
+            "having count(*) = (select max(count) from " +
+            "(select count(*) as count from records as r " +
+            "group by r.car_id) sub)", nativeQuery = true)
     List<Model> findMostPopularModels(LocalDate from, LocalDate to, int fromYear, int toYear);
 
-    @Query(value = "select * from models as m " +
+    @Query(value = "select m.* from models as m " +
             "join cars as c on m.id = c.model_id " +
             "join records as r on c.id = r.car_id " +
-            "join drivers as d on d.id = r.driver_id " +
-            "join (select r.reg_number, sum(cost) as sum from records as r " +
-            "group by r.reg_number) count_cost as counter on r.reg_number = counter.reg_number " +
-            "group by c.model_id " +
-            "having (cast(r.rent_date as date)) between :from and :to and " +
-            "sum = max(sum)", nativeQuery = true)
+            "join (select r.car_id, sum(r.cost) as sum from records as r " +
+            "group by r.car_id) counter on c.id = counter.car_id " +
+            "where (cast(r.rent_date as date)) between :from and :to " +
+            "group by m.id, counter.sum " +
+            "having counter.sum = (select max(max_sum) from " +
+            "(select sum(r.cost) as max_sum from records as r " +
+            "group by r.car_id) sub)", nativeQuery = true)
     List<Model> findMostProfitableModels(LocalDate from, LocalDate to);
 }

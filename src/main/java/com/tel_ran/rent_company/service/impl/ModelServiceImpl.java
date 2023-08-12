@@ -1,7 +1,6 @@
 package com.tel_ran.rent_company.service.impl;
 
 import com.tel_ran.rent_company.dto.model.ModelDto;
-import com.tel_ran.rent_company.dto.model.StatistGetModelsDto;
 import com.tel_ran.rent_company.entity.Model;
 import com.tel_ran.rent_company.exception.model.ModelExistsException;
 import com.tel_ran.rent_company.repo.ModelRepo;
@@ -37,19 +36,19 @@ public class ModelServiceImpl implements IModelService {
     }
 
     @Override
-    public List<ModelDto> getMostPopularModels(StatistGetModelsDto dto) {
-        LocalDate[] dates = DateUtil.parseDates(dto.getFromDate(), dto.getToDate(), formatter);
+    public List<ModelDto> getMostPopularModels(String fromDate, String toDate, Integer fromAge, Integer toAge) {
+        LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
         int now = LocalDate.now().getYear();
-        int fromBirthYear = now - dto.getFromAge();
-        int toBirthYear = now - dto.getToAge();
+        int fromBirthYear = now - fromAge;
+        int toBirthYear = now - toAge;
         return modelRepo.findMostPopularModels(dates[0], dates[1], fromBirthYear, toBirthYear).stream()
                 .map(ModelMapper::entityToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ModelDto> getMostProfitableModels(StatistGetModelsDto dto) {
-        LocalDate[] dates = DateUtil.parseDates(dto.getFromDate(), dto.getToDate(), formatter);
+    public List<ModelDto> getMostProfitableModels(String fromDate, String toDate) {
+        LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
         return modelRepo.findMostProfitableModels(dates[0], dates[1]).stream()
                 .map(ModelMapper::entityToDto)
                 .collect(Collectors.toList());

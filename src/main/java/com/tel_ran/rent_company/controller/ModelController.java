@@ -1,17 +1,13 @@
 package com.tel_ran.rent_company.controller;
 
 import com.tel_ran.rent_company.dto.model.ModelDto;
-import com.tel_ran.rent_company.dto.model.StatistGetModelsDto;
 import com.tel_ran.rent_company.service.IModelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,13 +29,17 @@ public class ModelController {
 
     @ApiOperation(value = "Get most popular models")
     @GetMapping(value = STATIST_MODEL_PATH + "/popular")
-    public List<ModelDto> getMostPopularModels(@Valid @RequestBody StatistGetModelsDto dto) {
-        return modelService.getMostPopularModels(dto);
+    public List<ModelDto> getMostPopularModels(@RequestParam(name = "from_date") String fromDate,
+                                               @RequestParam(name = "to_date") String toDate,
+                                               @RequestParam(name = "from_age") Integer fromAge,
+                                               @RequestParam(name = "to_age") Integer toAge) {
+        return modelService.getMostPopularModels(fromDate, toDate, fromAge, toAge);
     }
 
     @ApiOperation(value = "Get most profitable models")
     @GetMapping(value = STATIST_MODEL_PATH + "/profitable")
-    public List<ModelDto> getMostProfitableModels(@Valid @RequestBody StatistGetModelsDto dto) {
-        return modelService.getMostProfitableModels(dto);
+    public List<ModelDto> getMostProfitableModels(@RequestParam(name = "from_date") String fromDate,
+                                                  @RequestParam(name = "to_date") String toDate) {
+        return modelService.getMostProfitableModels(fromDate, toDate);
     }
 }
