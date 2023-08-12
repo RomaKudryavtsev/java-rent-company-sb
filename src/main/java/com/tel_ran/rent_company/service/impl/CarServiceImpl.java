@@ -54,7 +54,7 @@ public class CarServiceImpl implements ICarService {
     @Transactional
     @Override
     public RemoveCarDto removeCarByRegNumber(String regNumber) {
-        checkIfCarDoesNotExist(regNumber);
+        checkIfCarExists(regNumber);
         List<RentRecord> recordsToBeRemoved = recordRepo.findAllByCar_RegNumber(regNumber);
         Car carToBeDeleted = carRepo.findByRegNumber(regNumber);
         carToBeDeleted.setToBeRemoved(true);
@@ -62,12 +62,13 @@ public class CarServiceImpl implements ICarService {
         if (carToBeDeleted.getInUse()) {
             return new RemoveCarDto(CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber)), new ArrayList<>());
         } else {
-            recordRepo.deleteAll(recordsToBeRemoved);
-            carRepo.delete(carToBeDeleted);
-            return new RemoveCarDto(CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber)),
+            RemoveCarDto res = new RemoveCarDto(CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber)),
                     recordsToBeRemoved.stream()
                             .map(r -> RecordMapper.entityToRecordDto(r, formatter))
                             .collect(Collectors.toList()));
+            recordRepo.deleteAll(recordsToBeRemoved);
+            carRepo.delete(carToBeDeleted);
+            return res;
         }
     }
 
