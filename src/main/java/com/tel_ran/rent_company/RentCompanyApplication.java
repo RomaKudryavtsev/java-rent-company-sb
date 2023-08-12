@@ -12,9 +12,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class RentCompanyApplication {
     //TODO: add docker
-    //TODO: check the initial plain java implementation and test endpoints in swagger
+    //TODO: add pagination
     public static void main(String[] args) {
         SpringApplication.run(RentCompanyApplication.class, args);
+        System.out.println("RentCompany-SB\nTo use Swagger UI press this link: http://localhost:8080/swagger-ui/");
     }
 
 }

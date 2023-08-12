@@ -6,6 +6,7 @@ import com.tel_ran.rent_company.dto.record.ReturnCarDto;
 import com.tel_ran.rent_company.entity.Car;
 import com.tel_ran.rent_company.entity.Driver;
 import com.tel_ran.rent_company.entity.RentRecord;
+import com.tel_ran.rent_company.entity.State;
 import com.tel_ran.rent_company.exception.car.CarInUseException;
 import com.tel_ran.rent_company.exception.car.CarNotFoundException;
 import com.tel_ran.rent_company.exception.car.CarToBeRemovedException;
@@ -13,6 +14,7 @@ import com.tel_ran.rent_company.exception.driver.DriverNotFoundException;
 import com.tel_ran.rent_company.repo.CarRepo;
 import com.tel_ran.rent_company.repo.DriverRepo;
 import com.tel_ran.rent_company.repo.RecordRepo;
+import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.service.IRecordService;
 import com.tel_ran.rent_company.util.DateUtil;
 import com.tel_ran.rent_company.util.RecordMapper;
@@ -33,6 +35,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RecordServiceImpl implements IRecordService {
+    static final int CRITICAL_DAMAGES = 60;
+    static final int SERIOUS_DAMAGES = 30;
+    static final int LIGHT_DAMAGES = 10;
     @Value("${rent.fine.percent}")
     Integer finePercent;
     @Value("${rent.gas.price}")
@@ -41,6 +46,7 @@ public class RecordServiceImpl implements IRecordService {
     final DriverRepo driverRepo;
     final RecordRepo recordRepo;
     final DateTimeFormatter formatter;
+    final ICarService carService;
 
     @Transactional
     @Override
@@ -52,7 +58,7 @@ public class RecordServiceImpl implements IRecordService {
         checkCar(car);
         RentRecord newRecord = setNewRecordOnRent(rentDto, formatter, car);
         RentCarDto res = RecordMapper.entityToRentCarDto(recordRepo.save(newRecord), formatter);
-        updateCar(car, true);
+        updateCarOnRent(car);
         return res;
     }
 
@@ -61,10 +67,12 @@ public class RecordServiceImpl implements IRecordService {
     public RecordDto returnCar(ReturnCarDto returnDto) {
         Long licenseId = returnDto.getLicenseId();
         String regNumber = returnDto.getRegNumber();
+        int damages = returnDto.getDamages();
         checkRecord(licenseId, regNumber);
+        Car car = carRepo.findByRegNumber(regNumber);
         RentRecord rentRecordFound = updateRecordOnReturn(licenseId, regNumber, returnDto);
         RecordDto res = RecordMapper.entityToRecordDto(recordRepo.save(rentRecordFound), formatter);
-        updateCar(carRepo.findByRegNumber(regNumber), false);
+        updateCarOnReturn(car, false, damages);
         return res;
     }
 
@@ -121,13 +129,26 @@ public class RecordServiceImpl implements IRecordService {
         return record;
     }
 
-    private void updateCar(Car car, boolean onRent) {
-        if (onRent) {
-            car.setInUse(true);
-            carRepo.save(car);
+    private void updateCarOnRent(Car car) {
+        car.setInUse(true);
+        carRepo.save(car);
+    }
+
+    private void updateCarOnReturn(Car car, boolean onRent, int damages) {
+        car.setInUse(false);
+        updateState(car, damages);
+        if (damages > CRITICAL_DAMAGES || car.getToBeRemoved()) {
+            carService.removeCarByRegNumber(car.getRegNumber());
         } else {
-            car.setInUse(false);
             carRepo.save(car);
+        }
+    }
+
+    private void updateState(Car car, int damages) {
+        if (damages >= LIGHT_DAMAGES && damages < SERIOUS_DAMAGES) {
+            car.setState(State.GOOD);
+        } else if (damages >= SERIOUS_DAMAGES) {
+            car.setState(State.BAD);
         }
     }
 

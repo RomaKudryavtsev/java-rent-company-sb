@@ -39,7 +39,10 @@ public class ModelServiceImpl implements IModelService {
     @Override
     public List<ModelDto> getMostPopularModels(StatistGetModelsDto dto) {
         LocalDate[] dates = DateUtil.parseDates(dto.getFromDate(), dto.getToDate(), formatter);
-        return modelRepo.findMostPopularModels(dates[0], dates[1], dto.getFromAge(), dto.getToAge()).stream()
+        int now = LocalDate.now().getYear();
+        int fromBirthYear = now - dto.getFromAge();
+        int toBirthYear = now - dto.getToAge();
+        return modelRepo.findMostPopularModels(dates[0], dates[1], fromBirthYear, toBirthYear).stream()
                 .map(ModelMapper::entityToDto)
                 .collect(Collectors.toList());
     }
