@@ -8,6 +8,7 @@ import com.tel_ran.rent_company.service.IDriverService;
 import com.tel_ran.rent_company.util.DriverMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class DriverServiceImpl implements IDriverService {
         }
     }
 
+    @Transactional
     @Override
     public DriverDto addDriver(DriverDto driverDto) {
         checkIfDriverExists(driverDto.getLicenseId());

@@ -9,6 +9,7 @@ import com.tel_ran.rent_company.service.IModelService;
 import com.tel_ran.rent_company.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ModelServiceImpl implements IModelService {
         }
     }
 
+    @Transactional
     @Override
     public ModelDto addModel(ModelDto modelDto) {
         checkIfModelExist(modelDto.getModelName());

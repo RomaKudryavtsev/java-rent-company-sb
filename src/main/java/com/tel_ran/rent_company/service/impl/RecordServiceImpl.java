@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,6 +72,7 @@ public class RecordServiceImpl implements IRecordService {
     }
 
     //TODO: car has to be updated on rent and on return
+    @Transactional
     @Override
     public RentCarDto rentCar(RentCarDto rentDto) {
         Long licenseId = rentDto.getLicenseId();
@@ -86,6 +88,7 @@ public class RecordServiceImpl implements IRecordService {
         return RecordMapper.entityToRentCarDto(recordRepo.save(newRecord), DateTimeFormatter.ofPattern(format));
     }
 
+    @Transactional
     @Override
     public RecordDto returnCar(ReturnCarDto returnDto) {
         Long licenseId = returnDto.getLicenseId();

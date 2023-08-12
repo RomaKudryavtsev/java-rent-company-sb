@@ -13,6 +13,7 @@ import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.util.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class CarServiceImpl implements ICarService {
         }
     }
 
+    @Transactional
     @Override
     public CarResponseDto addCar(AddCarRequestDto addCarRequestDto) {
         checkIfCarExists(addCarRequestDto.getRegNumber());
@@ -50,12 +52,14 @@ public class CarServiceImpl implements ICarService {
         return CarMapper.entityToResponseDto(carRepo.save(carToBeAdded));
     }
 
+    @Transactional
     @Override
     public RemoveCarDto removeCarByRegNumber(String regNumber) {
         //TODO: to implement after records
         return null;
     }
 
+    @Transactional
     @Override
     public List<RemoveCarDto> removeCarsByModelName(String modelName) {
         //TODO: to implement after records
