@@ -43,8 +43,9 @@ public class DriverServiceImpl implements IDriverService {
 
     @Override
     public List<DriverDto> getMostActiveDrivers() {
-        //TODO: to implement after records
-        return null;
+        return driverRepo.findMostActiveDrivers().stream()
+                .map(DriverMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

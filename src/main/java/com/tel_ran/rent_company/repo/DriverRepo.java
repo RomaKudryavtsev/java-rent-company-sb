@@ -18,4 +18,10 @@ public interface DriverRepo extends JpaRepository<Driver, Long> {
             "join cars as c on c.id = r.id " +
             "where c.reg_number = :regNumber", nativeQuery = true)
     List<Driver> findDriversByCar(String regNumber);
+
+    @Query(value = "select * from drivers as d " +
+            "join (select r.license_id, count(*) as count from records as r " +
+            "group by r.license_id) count_records_for_license_id as c on d.license_id = count.license_id " +
+            "where count = max(count)", nativeQuery = true)
+    List<Driver> findMostActiveDrivers();
 }
