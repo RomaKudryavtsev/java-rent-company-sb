@@ -3,6 +3,8 @@ package com.tel_ran.rent_company.controller;
 import com.tel_ran.rent_company.dto.AddCarRequestDto;
 import com.tel_ran.rent_company.dto.DriverDto;
 import com.tel_ran.rent_company.service.IDriverService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Api(tags = "Drivers")
 public class DriverController {
     final static String CLERK_DRIVER_PATH = "/clerk/driver";
     final static String STATIST_DRIVER_PATH = "/statist/driver";
@@ -21,21 +24,25 @@ public class DriverController {
     @Autowired
     IDriverService driverService;
 
+    @ApiOperation(value = "Add new driver")
     @PostMapping(value = CLERK_DRIVER_PATH)
     public DriverDto addDriver (@Valid @RequestBody DriverDto driverDto) {
         return driverService.addDriver(driverDto);
     }
 
+    @ApiOperation(value = "Find most active drivers (by records number)")
     @GetMapping(value = STATIST_DRIVER_PATH + "/active")
     public List<DriverDto> getMostActiveDrivers() {
         return driverService.getMostActiveDrivers();
     }
 
+    @ApiOperation(value = "Find driver by license id")
     @GetMapping(value = DRIVER_DRIVER_PATH + "/{license_id}")
     public DriverDto getDriverDataByLicenseId (@PathVariable(name = "license_id") Long licenseId) {
         return driverService.getDriverDataByLicenseId(licenseId);
     }
 
+    @ApiOperation(value = "Find drivers who rented certain car")
     @GetMapping(value = DRIVER_DRIVER_PATH + "/{reg_number}")
     public List<DriverDto> driversByCar(@PathVariable(name = "reg_number") String regNumber) {
         return driverService.driversByCar(regNumber);

@@ -3,6 +3,8 @@ package com.tel_ran.rent_company.controller;
 import com.tel_ran.rent_company.dto.ModelDto;
 import com.tel_ran.rent_company.dto.StatistGetModelsDto;
 import com.tel_ran.rent_company.service.IModelService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -16,22 +18,26 @@ import java.util.List;
 
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Api(tags = "Models")
 public class ModelController {
     final static String MANAGER_MODEL_PATH = "/manager/model";
     final static String STATIST_MODEL_PATH = "/statist/model";
     @Autowired
     IModelService modelService;
 
+    @ApiOperation(value = "Add new model")
     @PostMapping(value = MANAGER_MODEL_PATH)
     public ModelDto addModel(@Valid @RequestBody ModelDto modelDto) {
         return modelService.addModel(modelDto);
     }
 
+    @ApiOperation(value = "Get most popular models")
     @GetMapping(value = STATIST_MODEL_PATH + "/popular")
     public List<ModelDto> getMostPopularModels(@Valid @RequestBody StatistGetModelsDto dto) {
         return modelService.getMostPopularModels(dto);
     }
 
+    @ApiOperation(value = "Get most profitable models")
     @GetMapping(value = STATIST_MODEL_PATH + "/profitable")
     public List<ModelDto> getMostProfitableModels(@Valid @RequestBody StatistGetModelsDto dto) {
         return modelService.getMostProfitableModels(dto);
