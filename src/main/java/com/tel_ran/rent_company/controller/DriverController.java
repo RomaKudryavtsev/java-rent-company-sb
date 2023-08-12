@@ -36,9 +36,9 @@ public class DriverController {
         return driverService.getDriverDataByLicenseId(licenseId);
     }
 
-    @GetMapping(value = DRIVER_DRIVER_PATH + "/{license_id}")
-    public List<AddCarRequestDto> getCarsByDriver(@PathVariable(name = "license_id") Long licenseId) {
-        return driverService.getCarsByDriver(licenseId);
+    @GetMapping(value = DRIVER_DRIVER_PATH + "/{reg_number}")
+    public List<DriverDto> driversByCar(@PathVariable(name = "reg_number") String regNumber) {
+        return driverService.driversByCar(regNumber);
     }
 
 

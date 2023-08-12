@@ -12,5 +12,5 @@ public interface IDriverService {
 
     DriverDto getDriverDataByLicenseId(Long licenseId);
 
-    List<AddCarRequestDto> getCarsByDriver(Long licenseId);
+    List<DriverDto> driversByCar(String regNumber);
 }

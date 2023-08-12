@@ -16,11 +16,13 @@ public class ModelServiceImpl implements IModelService {
 
     @Override
     public List<ModelDto> getMostPopularModels(StatistGetModelsDto dto) {
+        //TODO: to implement after records
         return null;
     }
 
     @Override
     public List<ModelDto> getMostProfitableModels(StatistGetModelsDto dto) {
+        //TODO: to implement after records
         return null;
     }
 }
