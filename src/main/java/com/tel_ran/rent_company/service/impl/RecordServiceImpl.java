@@ -12,6 +12,7 @@ import com.tel_ran.rent_company.repo.CarRepo;
 import com.tel_ran.rent_company.repo.DriverRepo;
 import com.tel_ran.rent_company.repo.RecordRepo;
 import com.tel_ran.rent_company.service.IRecordService;
+import com.tel_ran.rent_company.util.DateUtil;
 import com.tel_ran.rent_company.util.RecordMapper;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -35,6 +36,7 @@ public class RecordServiceImpl implements IRecordService {
     int gasPrice;
     @Value("${rent.date.format}")
     String format;
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     @Autowired
     CarRepo carRepo;
     @Autowired
@@ -49,10 +51,6 @@ public class RecordServiceImpl implements IRecordService {
         if (!carRepo.existsByRegNumber(regNumber)) {
             throw new CarNotFoundException("Car does not exist");
         }
-    }
-
-    private LocalDate parseDate(String rentDate) {
-        return LocalDate.parse(rentDate, DateTimeFormatter.ofPattern(format));
     }
 
     private double calculateCost(int rentPrice, int rentDays, int delay, int tankPercent, int tankVolume) {
@@ -79,14 +77,14 @@ public class RecordServiceImpl implements IRecordService {
         Long licenseId = rentDto.getLicenseId();
         String regNumber = rentDto.getRegNumber();
         checkRecord(licenseId, regNumber);
-        RentRecord newRecord = RecordMapper.rentCarDtoToEntity(rentDto, DateTimeFormatter.ofPattern(format));
-        LocalDate rentDate = parseDate(rentDto.getRentDate());
+        RentRecord newRecord = RecordMapper.rentCarDtoToEntity(rentDto, formatter);
+        LocalDate rentDate = DateUtil.parseDate(rentDto.getRentDate(), formatter);
         newRecord.setRentDate(rentDate);
         Driver driver = driverRepo.findByLicenseId(licenseId);
         newRecord.setDriver(driver);
         Car car = carRepo.findByRegNumber(regNumber);
         newRecord.setCar(car);
-        return RecordMapper.entityToRentCarDto(recordRepo.save(newRecord), DateTimeFormatter.ofPattern(format));
+        return RecordMapper.entityToRentCarDto(recordRepo.save(newRecord), formatter);
     }
 
     @Transactional
@@ -105,14 +103,13 @@ public class RecordServiceImpl implements IRecordService {
                 returnDto.getTankPercent(),
                 returnDto.getDamages()
         ));
-        return RecordMapper.entityToRecordDto(recordRepo.save(rentRecordFound), DateTimeFormatter.ofPattern(format));
+        return RecordMapper.entityToRecordDto(recordRepo.save(rentRecordFound), formatter);
     }
 
     @Override
     public List<RecordDto> getRecords(String fromDate, String toDate) {
-        LocalDate from = parseDate(fromDate);
-        LocalDate to = parseDate(toDate);
-        return recordRepo.findAllRecordsBetweenRentDates(from, to).stream()
+        LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
+        return recordRepo.findAllRecordsBetweenRentDates(dates[0], dates[1]).stream()
                 .map(r -> RecordMapper.entityToRecordDto(r, DateTimeFormatter.ofPattern(format)))
                 .collect(Collectors.toList());
     }

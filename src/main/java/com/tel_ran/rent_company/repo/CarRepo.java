@@ -16,9 +16,8 @@ public interface CarRepo extends JpaRepository<Car, Long> {
     Car findByRegNumber(String regNumber);
 
     @Query(value = "select * from cars as c " +
-            "join records as r on c.id = r.id " +
-            "join drivers as d on r.id = d.id " +
+            "join records as r on c.id = r.car_id " +
+            "join drivers as d on d.id = r.driver_id " +
             "where d.license_id = :licenseId", nativeQuery = true)
     List<Car> findCarsByDriver(Long licenseId);
-
 }

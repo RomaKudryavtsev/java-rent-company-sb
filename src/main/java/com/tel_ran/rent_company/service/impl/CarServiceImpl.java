@@ -15,6 +15,8 @@ import com.tel_ran.rent_company.repo.RecordRepo;
 import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.util.CarMapper;
 import com.tel_ran.rent_company.util.RecordMapper;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CarServiceImpl implements ICarService {
     @Value("${rent.date.format}")
     String format;
@@ -43,7 +46,7 @@ public class CarServiceImpl implements ICarService {
     }
 
     private void checkIfCarExists(String regNumber) {
-        if(!carRepo.existsByRegNumber(regNumber)) {
+        if (!carRepo.existsByRegNumber(regNumber)) {
             throw new CarNotFoundException("Car was not found");
         }
     }

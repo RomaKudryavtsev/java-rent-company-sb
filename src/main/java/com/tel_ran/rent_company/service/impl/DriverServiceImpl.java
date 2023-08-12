@@ -7,6 +7,8 @@ import com.tel_ran.rent_company.exception.DriverNotFoundException;
 import com.tel_ran.rent_company.repo.DriverRepo;
 import com.tel_ran.rent_company.service.IDriverService;
 import com.tel_ran.rent_company.util.DriverMapper;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DriverServiceImpl implements IDriverService {
     @Autowired
     DriverRepo driverRepo;
@@ -27,7 +30,7 @@ public class DriverServiceImpl implements IDriverService {
     }
 
     private void checkIfDriverExists(Long licenseId) {
-        if(driverRepo.existsByLicenseId(licenseId)) {
+        if (driverRepo.existsByLicenseId(licenseId)) {
             throw new DriverNotFoundException("Driver does not exist");
         }
     }

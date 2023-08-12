@@ -32,7 +32,9 @@ public class RentRecord {
     @Column(name = "cost")
     Double cost;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
     Driver driver;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
     Car car;
 }
