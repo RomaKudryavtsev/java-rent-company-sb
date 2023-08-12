@@ -16,4 +16,6 @@ public interface RecordRepo extends JpaRepository<RentRecord, Long> {
     List<RentRecord> findAllRecordsBetweenRentDates(LocalDate from, LocalDate to);
 
     RentRecord findByCar_RegNumberAndDriver_LicenseId(String regNumber, Long licenseId);
+
+    List<RentRecord> findAllByCar_RegNumber(String regNumber);
 }

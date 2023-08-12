@@ -4,27 +4,36 @@ import com.tel_ran.rent_company.dto.AddCarRequestDto;
 import com.tel_ran.rent_company.dto.CarResponseDto;
 import com.tel_ran.rent_company.dto.RemoveCarDto;
 import com.tel_ran.rent_company.entity.Car;
+import com.tel_ran.rent_company.entity.RentRecord;
 import com.tel_ran.rent_company.entity.State;
 import com.tel_ran.rent_company.exception.CarExistsException;
 import com.tel_ran.rent_company.exception.ModelNotFoundException;
 import com.tel_ran.rent_company.repo.CarRepo;
 import com.tel_ran.rent_company.repo.ModelRepo;
+import com.tel_ran.rent_company.repo.RecordRepo;
 import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.util.CarMapper;
+import com.tel_ran.rent_company.util.RecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements ICarService {
+    @Value("${rent.date.format}")
+    String format;
     @Autowired
     CarRepo carRepo;
     @Autowired
     ModelRepo modelRepo;
+    @Autowired
+    RecordRepo recordRepo;
 
     private void checkIfCarExists(String regNumber) {
         if (carRepo.existsByRegNumber(regNumber)) {
@@ -55,15 +64,28 @@ public class CarServiceImpl implements ICarService {
     @Transactional
     @Override
     public RemoveCarDto removeCarByRegNumber(String regNumber) {
-        //TODO: to implement after records
-        return null;
+        List<RentRecord> recordsToBeRemoved = recordRepo.findAllByCar_RegNumber(regNumber);
+        Car carToBeDeleted = carRepo.findByRegNumber(regNumber);
+        carToBeDeleted.setToBeRemoved(true);
+        carRepo.save(carToBeDeleted);
+        if (carToBeDeleted.getInUse()) {
+            return new RemoveCarDto(CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber)), new ArrayList<>());
+        } else {
+            recordRepo.deleteAll(recordsToBeRemoved);
+            carRepo.delete(carToBeDeleted);
+            return new RemoveCarDto(CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber)),
+                    recordsToBeRemoved.stream()
+                            .map(r -> RecordMapper.entityToRecordDto(r, DateTimeFormatter.ofPattern(format)))
+                            .collect(Collectors.toList()));
+        }
     }
 
     @Transactional
     @Override
     public List<RemoveCarDto> removeCarsByModelName(String modelName) {
-        //TODO: to implement after records
-        return null;
+        return carRepo.findByModel_ModelName(modelName).stream()
+                .map(c -> this.removeCarByRegNumber(c.getRegNumber()))
+                .collect(Collectors.toList());
     }
 
     @Override
