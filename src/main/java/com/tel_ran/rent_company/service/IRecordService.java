@@ -9,7 +9,7 @@ import java.util.List;
 public interface IRecordService {
     RentCarDto rentCar(RentCarDto rentDto);
 
-    ReturnCarDto returnCar(ReturnCarDto returnDto);
+    RecordDto returnCar(ReturnCarDto returnDto);
 
     List<RecordDto> getRecords(String fromDate, String toDate);
 }

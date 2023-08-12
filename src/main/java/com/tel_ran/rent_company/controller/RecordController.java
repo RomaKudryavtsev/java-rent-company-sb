@@ -26,7 +26,7 @@ public class RecordController {
     }
 
     @PatchMapping(value = CLERK_RECORDS_PATH + "/return")
-    public ReturnCarDto returnCar(@Valid @RequestBody ReturnCarDto returnDto) {
+    public RecordDto returnCar(@Valid @RequestBody ReturnCarDto returnDto) {
         return recordService.returnCar(returnDto);
     }
 

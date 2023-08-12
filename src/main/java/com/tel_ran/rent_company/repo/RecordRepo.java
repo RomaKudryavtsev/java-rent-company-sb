@@ -14,4 +14,6 @@ public interface RecordRepo extends JpaRepository<RentRecord, Long> {
             "where (case(r.rent_date as date)) between :from and :to",
             nativeQuery = true)
     List<RentRecord> findAllRecordsBetweenRentDates(LocalDate from, LocalDate to);
+
+    RentRecord findByCar_RegNumberAndDriver_LicenseId(String regNumber, Long licenseId);
 }
