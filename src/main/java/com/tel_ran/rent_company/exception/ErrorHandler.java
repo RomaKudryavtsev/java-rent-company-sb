@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.format.DateTimeParseException;
+
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
@@ -24,7 +26,8 @@ public class ErrorHandler {
     @ExceptionHandler({
             CarExistsException.class,
             DriverExistsException.class,
-            ModelExistsException.class
+            ModelExistsException.class,
+            DateTimeParseException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequestExceptions(final RuntimeException e) {

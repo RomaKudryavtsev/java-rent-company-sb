@@ -19,8 +19,11 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,10 +44,16 @@ public class RecordServiceImpl implements IRecordService {
         }
     }
 
+    private LocalDate parseDate(String rentDate) {
+        return LocalDate.parse(rentDate, DateTimeFormatter.ofPattern(format));
+    }
+
     @Override
     public RentCarDto rentCar(RentCarDto rentDto) {
         checkRecord(rentDto);
         RentRecord newRecord = RecordMapper.rentCarDtoToEntity(rentDto, DateTimeFormatter.ofPattern(format));
+        LocalDate rentDate = parseDate(rentDto.getRentDate());
+        newRecord.setRentDate(rentDate);
         Driver driver = driverRepo.findByLicenseId(rentDto.getLicenseId());
         newRecord.setDriver(driver);
         Car car = carRepo.findByRegNumber(rentDto.getRegNumber());
@@ -59,6 +68,10 @@ public class RecordServiceImpl implements IRecordService {
 
     @Override
     public List<RecordDto> getRecords(String fromDate, String toDate) {
-        return null;
+        LocalDate from = parseDate(fromDate);
+        LocalDate to = parseDate(toDate);
+        return recordRepo.findAllRecordsBetweenRentDates(from, to).stream()
+                .map(r -> RecordMapper.entityToRecordDto(r, DateTimeFormatter.ofPattern(format)))
+                .collect(Collectors.toList());
     }
 }
