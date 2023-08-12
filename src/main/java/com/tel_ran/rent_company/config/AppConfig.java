@@ -18,7 +18,7 @@ public class AppConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.tel_ran.rent_company"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())

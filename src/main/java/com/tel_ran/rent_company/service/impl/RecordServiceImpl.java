@@ -14,8 +14,8 @@ import com.tel_ran.rent_company.repo.RecordRepo;
 import com.tel_ran.rent_company.service.IRecordService;
 import com.tel_ran.rent_company.util.RecordMapper;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,17 +27,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RecordServiceImpl implements IRecordService {
     @Value("${rent.fine.percent}")
-    int finePercent;
+    Integer finePercent;
     @Value("${rent.gas.price}")
     int gasPrice;
     @Value("${rent.date.format}")
     String format;
+    @Autowired
     CarRepo carRepo;
+    @Autowired
     DriverRepo driverRepo;
+    @Autowired
     RecordRepo recordRepo;
 
     private void checkRecord(Long licenseId, String regNumber) {
