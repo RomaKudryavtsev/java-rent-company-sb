@@ -1,12 +1,13 @@
 package com.tel_ran.rent_company.repo;
 
 import com.tel_ran.rent_company.entity.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Repository
 public interface ModelRepo extends JpaRepository<Model, Long> {
@@ -26,7 +27,7 @@ public interface ModelRepo extends JpaRepository<Model, Long> {
             "having count(*) = (select max(count) from " +
             "(select count(*) as count from records as r " +
             "group by r.car_id) sub)", nativeQuery = true)
-    List<Model> findMostPopularModels(LocalDate from, LocalDate to, int fromYear, int toYear);
+    Page<Model> findMostPopularModels(LocalDate from, LocalDate to, int fromYear, int toYear, Pageable pageRequest);
 
     @Query(value = "select m.* from models as m " +
             "join cars as c on m.id = c.model_id " +
@@ -38,5 +39,5 @@ public interface ModelRepo extends JpaRepository<Model, Long> {
             "having counter.sum = (select max(max_sum) from " +
             "(select sum(r.cost) as max_sum from records as r " +
             "group by r.car_id) sub)", nativeQuery = true)
-    List<Model> findMostProfitableModels(LocalDate from, LocalDate to);
+    Page<Model> findMostProfitableModels(LocalDate from, LocalDate to, Pageable pageRequest);
 }

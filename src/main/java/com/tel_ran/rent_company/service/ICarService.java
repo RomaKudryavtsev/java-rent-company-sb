@@ -13,9 +13,9 @@ public interface ICarService {
 
     List<RemoveCarDto> removeCarsByModelName(String modelName);
 
-    List<CarResponseDto> getCarsByModelName(String modelName);
+    List<CarResponseDto> getCarsByModelName(String modelName, Integer from, Integer size);
 
     CarResponseDto getCarByRegNumber(String regNumber);
 
-    List<CarResponseDto> getCarsByDriver(Long licenseId);
+    List<CarResponseDto> getCarsByDriver(Long licenseId, Integer from, Integer size);
 }

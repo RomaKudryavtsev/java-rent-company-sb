@@ -7,7 +7,7 @@ import java.util.List;
 public interface IModelService {
     ModelDto addModel(ModelDto modelDto);
 
-    List<ModelDto> getMostPopularModels(String fromDate, String toDate, Integer fromAge, Integer toAge);
+    List<ModelDto> getMostPopularModels(String fromDate, String toDate, Integer fromAge, Integer toAge, Integer from, Integer size);
 
-    List<ModelDto> getMostProfitableModels(String fromDate, String toDate);
+    List<ModelDto> getMostProfitableModels(String fromDate, String toDate, Integer from, Integer size);
 }

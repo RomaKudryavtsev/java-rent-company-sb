@@ -14,10 +14,12 @@ import com.tel_ran.rent_company.repo.ModelRepo;
 import com.tel_ran.rent_company.repo.RecordRepo;
 import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.util.CarMapper;
+import com.tel_ran.rent_company.util.PageUtil;
 import com.tel_ran.rent_company.util.RecordMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,8 +80,9 @@ public class CarServiceImpl implements ICarService {
     }
 
     @Override
-    public List<CarResponseDto> getCarsByModelName(String modelName) {
-        return carRepo.findByModel_ModelName(modelName).stream().map(CarMapper::entityToResponseDto)
+    public List<CarResponseDto> getCarsByModelName(String modelName, Integer from, Integer size) {
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return carRepo.findByModel_ModelName(modelName, pageRequest).stream().map(CarMapper::entityToResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -90,8 +93,9 @@ public class CarServiceImpl implements ICarService {
     }
 
     @Override
-    public List<CarResponseDto> getCarsByDriver(Long licenseId) {
-        return carRepo.findCarsByDriver(licenseId).stream()
+    public List<CarResponseDto> getCarsByDriver(Long licenseId, Integer from, Integer size) {
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return carRepo.findCarsByDriver(licenseId, pageRequest).stream()
                 .map(CarMapper::entityToResponseDto)
                 .collect(Collectors.toList());
     }

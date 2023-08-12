@@ -32,14 +32,18 @@ public class ModelController {
     public List<ModelDto> getMostPopularModels(@RequestParam(name = "from_date") String fromDate,
                                                @RequestParam(name = "to_date") String toDate,
                                                @RequestParam(name = "from_age") Integer fromAge,
-                                               @RequestParam(name = "to_age") Integer toAge) {
-        return modelService.getMostPopularModels(fromDate, toDate, fromAge, toAge);
+                                               @RequestParam(name = "to_age") Integer toAge,
+                                               @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                               @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return modelService.getMostPopularModels(fromDate, toDate, fromAge, toAge, from, size);
     }
 
     @ApiOperation(value = "Get most profitable models")
     @GetMapping(value = STATIST_MODEL_PATH + "/profitable")
     public List<ModelDto> getMostProfitableModels(@RequestParam(name = "from_date") String fromDate,
-                                                  @RequestParam(name = "to_date") String toDate) {
-        return modelService.getMostProfitableModels(fromDate, toDate);
+                                                  @RequestParam(name = "to_date") String toDate,
+                                                  @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                                  @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return modelService.getMostProfitableModels(fromDate, toDate, from, size);
     }
 }

@@ -11,5 +11,5 @@ public interface IRecordService {
 
     RecordDto returnCar(ReturnCarDto returnDto);
 
-    List<RecordDto> getRecords(String fromDate, String toDate);
+    List<RecordDto> getRecords(String fromDate, String toDate, Integer from, Integer size);
 }

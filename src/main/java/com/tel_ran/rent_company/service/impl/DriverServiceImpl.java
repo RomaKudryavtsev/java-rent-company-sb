@@ -7,9 +7,11 @@ import com.tel_ran.rent_company.exception.driver.DriverNotFoundException;
 import com.tel_ran.rent_company.repo.DriverRepo;
 import com.tel_ran.rent_company.service.IDriverService;
 import com.tel_ran.rent_company.util.DriverMapper;
+import com.tel_ran.rent_company.util.PageUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +35,9 @@ public class DriverServiceImpl implements IDriverService {
     }
 
     @Override
-    public List<DriverDto> getMostActiveDrivers() {
-        return driverRepo.findMostActiveDrivers().stream()
+    public List<DriverDto> getMostActiveDrivers(Integer from, Integer size) {
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return driverRepo.findMostActiveDrivers(pageRequest).stream()
                 .map(DriverMapper::entityToDto)
                 .collect(Collectors.toList());
     }
@@ -46,8 +49,9 @@ public class DriverServiceImpl implements IDriverService {
     }
 
     @Override
-    public List<DriverDto> driversByCar(String regNumber) {
-        return driverRepo.findDriversByCar(regNumber).stream()
+    public List<DriverDto> driversByCar(String regNumber, Integer from, Integer size) {
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return driverRepo.findDriversByCar(regNumber, pageRequest).stream()
                 .map(DriverMapper::entityToDto)
                 .collect(Collectors.toList());
     }

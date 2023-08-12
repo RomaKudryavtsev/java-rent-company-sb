@@ -17,11 +17,13 @@ import com.tel_ran.rent_company.repo.RecordRepo;
 import com.tel_ran.rent_company.service.ICarService;
 import com.tel_ran.rent_company.service.IRecordService;
 import com.tel_ran.rent_company.util.DateUtil;
+import com.tel_ran.rent_company.util.PageUtil;
 import com.tel_ran.rent_company.util.RecordMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,9 +79,10 @@ public class RecordServiceImpl implements IRecordService {
     }
 
     @Override
-    public List<RecordDto> getRecords(String fromDate, String toDate) {
+    public List<RecordDto> getRecords(String fromDate, String toDate, Integer from, Integer size) {
         LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
-        return recordRepo.findAllRecordsBetweenRentDates(dates[0], dates[1]).stream()
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return recordRepo.findAllRecordsBetweenRentDates(dates[0], dates[1], pageRequest).stream()
                 .map(r -> RecordMapper.entityToRecordDto(r, formatter))
                 .collect(Collectors.toList());
     }

@@ -38,7 +38,9 @@ public class RecordController {
     @ApiOperation(value = "Get records between dates")
     @GetMapping(value = TECHNICIAN_RECORDS_PATH)
     public List<RecordDto> getRecords(@RequestParam(name = "fromDate") String fromDate,
-                                      @RequestParam(name = "toDate") String toDate) {
-        return recordService.getRecords(fromDate, toDate);
+                                      @RequestParam(name = "toDate") String toDate,
+                                      @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                      @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return recordService.getRecords(fromDate, toDate, from, size);
     }
 }

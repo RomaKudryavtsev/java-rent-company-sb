@@ -7,9 +7,11 @@ import com.tel_ran.rent_company.repo.ModelRepo;
 import com.tel_ran.rent_company.service.IModelService;
 import com.tel_ran.rent_company.util.DateUtil;
 import com.tel_ran.rent_company.util.ModelMapper;
+import com.tel_ran.rent_company.util.PageUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,20 +38,22 @@ public class ModelServiceImpl implements IModelService {
     }
 
     @Override
-    public List<ModelDto> getMostPopularModels(String fromDate, String toDate, Integer fromAge, Integer toAge) {
+    public List<ModelDto> getMostPopularModels(String fromDate, String toDate, Integer fromAge, Integer toAge, Integer from, Integer size) {
         LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
         int now = LocalDate.now().getYear();
         int fromBirthYear = now - fromAge;
         int toBirthYear = now - toAge;
-        return modelRepo.findMostPopularModels(dates[0], dates[1], fromBirthYear, toBirthYear).stream()
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return modelRepo.findMostPopularModels(dates[0], dates[1], fromBirthYear, toBirthYear, pageRequest).stream()
                 .map(ModelMapper::entityToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ModelDto> getMostProfitableModels(String fromDate, String toDate) {
+    public List<ModelDto> getMostProfitableModels(String fromDate, String toDate, Integer from, Integer size) {
         LocalDate[] dates = DateUtil.parseDates(fromDate, toDate, formatter);
-        return modelRepo.findMostProfitableModels(dates[0], dates[1]).stream()
+        Pageable pageRequest = PageUtil.makePageRequest(from, size);
+        return modelRepo.findMostProfitableModels(dates[0], dates[1], pageRequest).stream()
                 .map(ModelMapper::entityToDto)
                 .collect(Collectors.toList());
     }

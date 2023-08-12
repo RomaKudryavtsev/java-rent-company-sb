@@ -31,8 +31,9 @@ public class DriverController {
 
     @ApiOperation(value = "Find most active drivers (by records number)")
     @GetMapping(value = STATIST_DRIVER_PATH + "/active")
-    public List<DriverDto> getMostActiveDrivers() {
-        return driverService.getMostActiveDrivers();
+    public List<DriverDto> getMostActiveDrivers(@RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                                 @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return driverService.getMostActiveDrivers(from, size);
     }
 
     @ApiOperation(value = "Find driver by license id")
@@ -43,7 +44,9 @@ public class DriverController {
 
     @ApiOperation(value = "Find drivers who rented certain car")
     @GetMapping(value = DRIVER_DRIVER_PATH + "/car/{reg_number}")
-    public List<DriverDto> driversByCar(@PathVariable(name = "reg_number") String regNumber) {
-        return driverService.driversByCar(regNumber);
+    public List<DriverDto> driversByCar(@PathVariable(name = "reg_number") String regNumber,
+                                        @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                        @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return driverService.driversByCar(regNumber, from, size);
     }
 }

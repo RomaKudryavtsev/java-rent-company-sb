@@ -7,9 +7,9 @@ import java.util.List;
 public interface IDriverService {
     DriverDto addDriver(DriverDto driverDto);
 
-    List<DriverDto> getMostActiveDrivers();
+    List<DriverDto> getMostActiveDrivers(Integer from, Integer size);
 
     DriverDto getDriverDataByLicenseId(Long licenseId);
 
-    List<DriverDto> driversByCar(String regNumber);
+    List<DriverDto> driversByCar(String regNumber, Integer from, Integer size);
 }

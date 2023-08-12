@@ -44,8 +44,10 @@ public class CarController {
 
     @ApiOperation(value = "Find cars of certain model")
     @GetMapping(value = CLERK_CAR_PATH + "/model/{model_name}")
-    public List<CarResponseDto> getCarsByModelName(@PathVariable(name = "model_name") String modelName) {
-        return carService.getCarsByModelName(modelName);
+    public List<CarResponseDto> getCarsByModelName(@PathVariable(name = "model_name") String modelName,
+                                                   @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                                   @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return carService.getCarsByModelName(modelName, from, size);
     }
 
     @ApiOperation(value = "Find car by registration number")
@@ -56,7 +58,9 @@ public class CarController {
 
     @ApiOperation(value = "Find cars rented by certain driver")
     @GetMapping(value = DRIVER_CAR_PATH + "/driver/{license_id}")
-    public List<CarResponseDto> getCarsByDriver(@PathVariable(name = "license_id") Long licenseId) {
-        return carService.getCarsByDriver(licenseId);
+    public List<CarResponseDto> getCarsByDriver(@PathVariable(name = "license_id") Long licenseId,
+                                                @RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
+                                                @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        return carService.getCarsByDriver(licenseId, from, size);
     }
 }
