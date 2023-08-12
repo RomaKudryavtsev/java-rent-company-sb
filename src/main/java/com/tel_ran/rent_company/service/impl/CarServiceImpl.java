@@ -7,6 +7,7 @@ import com.tel_ran.rent_company.entity.Car;
 import com.tel_ran.rent_company.entity.RentRecord;
 import com.tel_ran.rent_company.entity.State;
 import com.tel_ran.rent_company.exception.CarExistsException;
+import com.tel_ran.rent_company.exception.CarNotFoundException;
 import com.tel_ran.rent_company.exception.ModelNotFoundException;
 import com.tel_ran.rent_company.repo.CarRepo;
 import com.tel_ran.rent_company.repo.ModelRepo;
@@ -35,9 +36,15 @@ public class CarServiceImpl implements ICarService {
     @Autowired
     RecordRepo recordRepo;
 
-    private void checkIfCarExists(String regNumber) {
+    private void checkIfCarDoesNotExist(String regNumber) {
         if (carRepo.existsByRegNumber(regNumber)) {
             throw new CarExistsException("Car already exists");
+        }
+    }
+
+    private void checkIfCarExists(String regNumber) {
+        if(!carRepo.existsByRegNumber(regNumber)) {
+            throw new CarNotFoundException("Car was not found");
         }
     }
 
@@ -50,7 +57,7 @@ public class CarServiceImpl implements ICarService {
     @Transactional
     @Override
     public CarResponseDto addCar(AddCarRequestDto addCarRequestDto) {
-        checkIfCarExists(addCarRequestDto.getRegNumber());
+        checkIfCarDoesNotExist(addCarRequestDto.getRegNumber());
         checkIfModelExists(addCarRequestDto.getModelName());
         Car carToBeAdded = CarMapper.requestDtoToEntity(addCarRequestDto);
         carToBeAdded.setInUse(false);
@@ -64,6 +71,7 @@ public class CarServiceImpl implements ICarService {
     @Transactional
     @Override
     public RemoveCarDto removeCarByRegNumber(String regNumber) {
+        checkIfCarDoesNotExist(regNumber);
         List<RentRecord> recordsToBeRemoved = recordRepo.findAllByCar_RegNumber(regNumber);
         Car carToBeDeleted = carRepo.findByRegNumber(regNumber);
         carToBeDeleted.setToBeRemoved(true);
@@ -96,6 +104,7 @@ public class CarServiceImpl implements ICarService {
 
     @Override
     public CarResponseDto getCarByRegNumber(String regNumber) {
+        checkIfCarExists(regNumber);
         return CarMapper.entityToResponseDto(carRepo.findByRegNumber(regNumber));
     }
 
