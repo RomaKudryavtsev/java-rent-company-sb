@@ -3,7 +3,6 @@ package com.tel_ran.rent_company.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 @Table(name = "records", schema = "public")
 @Getter
 @Setter
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RentRecord {
     @Id

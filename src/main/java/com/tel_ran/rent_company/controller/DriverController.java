@@ -32,7 +32,7 @@ public class DriverController {
     @ApiOperation(value = "Find most active drivers (by records number)")
     @GetMapping(value = STATIST_DRIVER_PATH + "/active")
     public List<DriverDto> getMostActiveDrivers(@RequestParam(name = "from", required = false, defaultValue = "0") Integer from,
-                                                 @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+                                                @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
         return driverService.getMostActiveDrivers(from, size);
     }
 
