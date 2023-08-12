@@ -39,24 +39,6 @@ public class CarServiceImpl implements ICarService {
     @Autowired
     RecordRepo recordRepo;
 
-    private void checkIfCarDoesNotExist(String regNumber) {
-        if (carRepo.existsByRegNumber(regNumber)) {
-            throw new CarExistsException("Car already exists");
-        }
-    }
-
-    private void checkIfCarExists(String regNumber) {
-        if (!carRepo.existsByRegNumber(regNumber)) {
-            throw new CarNotFoundException("Car was not found");
-        }
-    }
-
-    private void checkIfModelExists(String modelName) {
-        if (!modelRepo.existsByModelName(modelName)) {
-            throw new ModelNotFoundException("Model does not exist");
-        }
-    }
-
     @Transactional
     @Override
     public CarResponseDto addCar(AddCarRequestDto addCarRequestDto) {
@@ -116,5 +98,23 @@ public class CarServiceImpl implements ICarService {
         return carRepo.findCarsByDriver(licenseId).stream()
                 .map(CarMapper::entityToResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    private void checkIfCarDoesNotExist(String regNumber) {
+        if (carRepo.existsByRegNumber(regNumber)) {
+            throw new CarExistsException("Car already exists");
+        }
+    }
+
+    private void checkIfCarExists(String regNumber) {
+        if (!carRepo.existsByRegNumber(regNumber)) {
+            throw new CarNotFoundException("Car was not found");
+        }
+    }
+
+    private void checkIfModelExists(String modelName) {
+        if (!modelRepo.existsByModelName(modelName)) {
+            throw new ModelNotFoundException("Model does not exist");
+        }
     }
 }

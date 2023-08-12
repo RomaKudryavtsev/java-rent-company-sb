@@ -27,7 +27,9 @@ public class ErrorHandler {
             CarExistsException.class,
             DriverExistsException.class,
             ModelExistsException.class,
-            DateTimeParseException.class
+            DateTimeParseException.class,
+            CarInUseException.class,
+            CarToBeRemovedException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequestExceptions(final RuntimeException e) {

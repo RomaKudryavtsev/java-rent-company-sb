@@ -24,17 +24,12 @@ import java.util.stream.Collectors;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ModelServiceImpl implements IModelService {
+    //TODO: fix formatter issue
     @Value("${rent.date.format}")
     String format;
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     @Autowired
     ModelRepo modelRepo;
-
-    private void checkIfModelExist(String modelName) {
-        if (modelRepo.existsByModelName(modelName)) {
-            throw new ModelExistsException("Model already exists");
-        }
-    }
 
     @Transactional
     @Override
@@ -59,5 +54,11 @@ public class ModelServiceImpl implements IModelService {
         return modelRepo.findMostProfitableModels(dates[0], dates[1]).stream()
                 .map(ModelMapper::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    private void checkIfModelExist(String modelName) {
+        if (modelRepo.existsByModelName(modelName)) {
+            throw new ModelExistsException("Model already exists");
+        }
     }
 }

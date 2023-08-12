@@ -23,18 +23,6 @@ public class DriverServiceImpl implements IDriverService {
     @Autowired
     DriverRepo driverRepo;
 
-    private void checkIfDriverDoesNotExist(Long licenseId) {
-        if (driverRepo.existsByLicenseId(licenseId)) {
-            throw new DriverExistsException("Driver already exists");
-        }
-    }
-
-    private void checkIfDriverExists(Long licenseId) {
-        if (driverRepo.existsByLicenseId(licenseId)) {
-            throw new DriverNotFoundException("Driver does not exist");
-        }
-    }
-
     @Transactional
     @Override
     public DriverDto addDriver(DriverDto driverDto) {
@@ -62,5 +50,17 @@ public class DriverServiceImpl implements IDriverService {
         return driverRepo.findDriversByCar(regNumber).stream()
                 .map(DriverMapper::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    private void checkIfDriverDoesNotExist(Long licenseId) {
+        if (driverRepo.existsByLicenseId(licenseId)) {
+            throw new DriverExistsException("Driver already exists");
+        }
+    }
+
+    private void checkIfDriverExists(Long licenseId) {
+        if (driverRepo.existsByLicenseId(licenseId)) {
+            throw new DriverNotFoundException("Driver does not exist");
+        }
     }
 }
