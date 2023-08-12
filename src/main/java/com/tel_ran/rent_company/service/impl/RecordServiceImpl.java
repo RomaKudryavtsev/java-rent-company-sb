@@ -72,7 +72,7 @@ public class RecordServiceImpl implements IRecordService {
         Car car = carRepo.findByRegNumber(regNumber);
         RentRecord rentRecordFound = updateRecordOnReturn(licenseId, regNumber, returnDto);
         RecordDto res = RecordMapper.entityToRecordDto(recordRepo.save(rentRecordFound), formatter);
-        updateCarOnReturn(car, false, damages);
+        updateCarOnReturn(car, damages);
         return res;
     }
 
@@ -134,7 +134,7 @@ public class RecordServiceImpl implements IRecordService {
         carRepo.save(car);
     }
 
-    private void updateCarOnReturn(Car car, boolean onRent, int damages) {
+    private void updateCarOnReturn(Car car, int damages) {
         car.setInUse(false);
         updateState(car, damages);
         if (damages > CRITICAL_DAMAGES || car.getToBeRemoved()) {
@@ -154,15 +154,14 @@ public class RecordServiceImpl implements IRecordService {
 
     private RentRecord updateRecordOnReturn(Long licenseId, String regNumber, ReturnCarDto returnDto) {
         RentRecord rentRecordFound = recordRepo.findByCar_RegNumberAndDriver_LicenseId(regNumber, licenseId);
+        rentRecordFound.setReturnDate(DateUtil.parseDate(returnDto.getReturnDate(), formatter));
         rentRecordFound.setDamages(returnDto.getDamages());
         rentRecordFound.setTankPercent(returnDto.getTankPercent());
-        rentRecordFound.setCost(calculateCost(
-                rentRecordFound.getCar().getModel().getDayPrice(),
-                rentRecordFound.getRentDays(),
-                getDelay(rentRecordFound),
-                returnDto.getTankPercent(),
-                returnDto.getDamages()
-        ));
+        int dayPrice = rentRecordFound.getCar().getModel().getDayPrice();
+        int rentDays = rentRecordFound.getRentDays();
+        int delay = getDelay(rentRecordFound);
+        rentRecordFound.setCost(calculateCost(dayPrice, rentDays, delay, returnDto.getTankPercent(),
+                returnDto.getDamages()));
         return rentRecordFound;
     }
 }
