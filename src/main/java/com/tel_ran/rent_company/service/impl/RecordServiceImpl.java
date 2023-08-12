@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RecordServiceImpl implements IRecordService {
-    //TODO: add values to properties
     @Value("${rent.fine.percent}")
     int finePercent;
     @Value("${rent.gas.price}")
