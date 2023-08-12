@@ -1,4 +1,4 @@
-# java-rent-company-sb
+# RentCompany-SB
 Simple auto rent company server
 
 <p align="center">
