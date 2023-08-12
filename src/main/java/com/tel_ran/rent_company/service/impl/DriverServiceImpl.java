@@ -1,6 +1,6 @@
 package com.tel_ran.rent_company.service.impl;
 
-import com.tel_ran.rent_company.dto.CarDto;
+import com.tel_ran.rent_company.dto.AddCarRequestDto;
 import com.tel_ran.rent_company.dto.DriverDto;
 import com.tel_ran.rent_company.service.IDriverService;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class DriverServiceImpl implements IDriverService {
     }
 
     @Override
-    public List<CarDto> getCarsByDriver(Long licenseId) {
+    public List<AddCarRequestDto> getCarsByDriver(Long licenseId) {
         return null;
     }
 }

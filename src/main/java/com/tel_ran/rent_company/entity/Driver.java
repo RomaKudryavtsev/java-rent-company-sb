@@ -19,7 +19,7 @@ import java.util.List;
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long driverId;
+    Long id;
     @Column(name = "license_id")
     Long licenseId;
     @Column(name = "name")

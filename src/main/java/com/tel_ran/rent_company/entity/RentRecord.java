@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class RentRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long recordId;
+    Long id;
     @Column(name = "rent_date")
     LocalDate rentDate;
     @Column(name = "return_date")

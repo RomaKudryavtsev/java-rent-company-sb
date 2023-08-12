@@ -1,6 +1,6 @@
 package com.tel_ran.rent_company.controller;
 
-import com.tel_ran.rent_company.dto.CarDto;
+import com.tel_ran.rent_company.dto.AddCarRequestDto;
 import com.tel_ran.rent_company.dto.DriverDto;
 import com.tel_ran.rent_company.service.IDriverService;
 import jakarta.validation.Valid;
@@ -37,7 +37,7 @@ public class DriverController {
     }
 
     @GetMapping(value = DRIVER_DRIVER_PATH + "/{license_id}")
-    public List<CarDto> getCarsByDriver(@PathVariable(name = "license_id") Long licenseId) {
+    public List<AddCarRequestDto> getCarsByDriver(@PathVariable(name = "license_id") Long licenseId) {
         return driverService.getCarsByDriver(licenseId);
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long modelId;
+    Long id;
     @Column(name = "model_name")
     String modelName;
     @Column(name = "gas_tank")

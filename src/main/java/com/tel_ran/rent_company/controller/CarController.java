@@ -1,6 +1,7 @@
 package com.tel_ran.rent_company.controller;
 
-import com.tel_ran.rent_company.dto.CarDto;
+import com.tel_ran.rent_company.dto.AddCarRequestDto;
+import com.tel_ran.rent_company.dto.CarResponseDto;
 import com.tel_ran.rent_company.dto.RemoveCarDto;
 import com.tel_ran.rent_company.service.ICarService;
 import jakarta.validation.Valid;
@@ -21,8 +22,8 @@ public class CarController {
     ICarService carService;
 
     @PostMapping(value = MANAGER_CAR_PATH)
-    public CarDto addCar(@Valid @RequestBody CarDto carDto) {
-        return carService.addCar(carDto);
+    public CarResponseDto addCar(@Valid @RequestBody AddCarRequestDto addCarRequestDto) {
+        return carService.addCar(addCarRequestDto);
     }
 
     @DeleteMapping(value = MANAGER_CAR_PATH + "/{reg_number}")
@@ -36,17 +37,17 @@ public class CarController {
     }
 
     @GetMapping(value = CLERK_CAR_PATH + "/model/{model_name}")
-    public List<CarDto> getCarsByModelName(@PathVariable(name = "model_name") String modelName) {
+    public List<CarResponseDto> getCarsByModelName(@PathVariable(name = "model_name") String modelName) {
         return carService.getCarsByModelName(modelName);
     }
 
     @GetMapping(value = DRIVER_CAR_PATH + "/{reg_number}")
-    public CarDto getCarByRegNumber (@PathVariable(name = "reg_number") String regNumber) {
+    public CarResponseDto getCarByRegNumber (@PathVariable(name = "reg_number") String regNumber) {
         return carService.getCarByRegNumber(regNumber);
     }
 
     @GetMapping(value = DRIVER_CAR_PATH + "/driver/{license_id}")
-    public List<CarDto> getCarsByDriver(@PathVariable(name = "license_id") String licenseId) {
+    public List<CarResponseDto> getCarsByDriver(@PathVariable(name = "license_id") Long licenseId) {
         return carService.getCarsByDriver(licenseId);
     }
 }
