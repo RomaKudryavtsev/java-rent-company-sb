@@ -1,6 +1,6 @@
 package com.tel_ran.rent_company.util;
 
-import com.tel_ran.rent_company.dto.DriverDto;
+import com.tel_ran.rent_company.dto.driver.DriverDto;
 import com.tel_ran.rent_company.entity.Driver;
 
 public class DriverMapper {

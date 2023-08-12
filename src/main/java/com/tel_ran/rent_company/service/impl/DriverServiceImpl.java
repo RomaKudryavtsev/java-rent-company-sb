@@ -1,9 +1,9 @@
 package com.tel_ran.rent_company.service.impl;
 
-import com.tel_ran.rent_company.dto.DriverDto;
+import com.tel_ran.rent_company.dto.driver.DriverDto;
 import com.tel_ran.rent_company.entity.Driver;
-import com.tel_ran.rent_company.exception.DriverExistsException;
-import com.tel_ran.rent_company.exception.DriverNotFoundException;
+import com.tel_ran.rent_company.exception.driver.DriverExistsException;
+import com.tel_ran.rent_company.exception.driver.DriverNotFoundException;
 import com.tel_ran.rent_company.repo.DriverRepo;
 import com.tel_ran.rent_company.service.IDriverService;
 import com.tel_ran.rent_company.util.DriverMapper;

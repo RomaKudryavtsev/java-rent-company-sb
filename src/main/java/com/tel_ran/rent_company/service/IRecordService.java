@@ -1,8 +1,8 @@
 package com.tel_ran.rent_company.service;
 
-import com.tel_ran.rent_company.dto.RecordDto;
-import com.tel_ran.rent_company.dto.RentCarDto;
-import com.tel_ran.rent_company.dto.ReturnCarDto;
+import com.tel_ran.rent_company.dto.record.RecordDto;
+import com.tel_ran.rent_company.dto.record.RentCarDto;
+import com.tel_ran.rent_company.dto.record.ReturnCarDto;
 
 import java.util.List;
 

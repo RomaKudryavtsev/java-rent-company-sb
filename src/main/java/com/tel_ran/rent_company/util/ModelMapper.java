@@ -1,6 +1,6 @@
 package com.tel_ran.rent_company.util;
 
-import com.tel_ran.rent_company.dto.ModelDto;
+import com.tel_ran.rent_company.dto.model.ModelDto;
 import com.tel_ran.rent_company.entity.Model;
 
 public class ModelMapper {

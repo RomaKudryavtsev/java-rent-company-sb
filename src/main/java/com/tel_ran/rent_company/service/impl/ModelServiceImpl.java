@@ -1,9 +1,9 @@
 package com.tel_ran.rent_company.service.impl;
 
-import com.tel_ran.rent_company.dto.ModelDto;
-import com.tel_ran.rent_company.dto.StatistGetModelsDto;
+import com.tel_ran.rent_company.dto.model.ModelDto;
+import com.tel_ran.rent_company.dto.model.StatistGetModelsDto;
 import com.tel_ran.rent_company.entity.Model;
-import com.tel_ran.rent_company.exception.ModelExistsException;
+import com.tel_ran.rent_company.exception.model.ModelExistsException;
 import com.tel_ran.rent_company.repo.ModelRepo;
 import com.tel_ran.rent_company.service.IModelService;
 import com.tel_ran.rent_company.util.DateUtil;

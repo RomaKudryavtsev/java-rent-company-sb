@@ -1,6 +1,6 @@
 package com.tel_ran.rent_company.controller;
 
-import com.tel_ran.rent_company.dto.DriverDto;
+import com.tel_ran.rent_company.dto.driver.DriverDto;
 import com.tel_ran.rent_company.service.IDriverService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

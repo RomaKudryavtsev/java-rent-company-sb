@@ -1,8 +1,8 @@
 package com.tel_ran.rent_company.service;
 
-import com.tel_ran.rent_company.dto.AddCarRequestDto;
-import com.tel_ran.rent_company.dto.CarResponseDto;
-import com.tel_ran.rent_company.dto.RemoveCarDto;
+import com.tel_ran.rent_company.dto.car.AddCarRequestDto;
+import com.tel_ran.rent_company.dto.car.CarResponseDto;
+import com.tel_ran.rent_company.dto.car.RemoveCarDto;
 
 import java.util.List;
 

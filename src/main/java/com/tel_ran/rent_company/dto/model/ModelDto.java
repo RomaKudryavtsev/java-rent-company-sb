@@ -1,4 +1,4 @@
-package com.tel_ran.rent_company.dto;
+package com.tel_ran.rent_company.dto.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,7 +1,7 @@
 package com.tel_ran.rent_company.service;
 
-import com.tel_ran.rent_company.dto.ModelDto;
-import com.tel_ran.rent_company.dto.StatistGetModelsDto;
+import com.tel_ran.rent_company.dto.model.ModelDto;
+import com.tel_ran.rent_company.dto.model.StatistGetModelsDto;
 
 import java.util.List;
 

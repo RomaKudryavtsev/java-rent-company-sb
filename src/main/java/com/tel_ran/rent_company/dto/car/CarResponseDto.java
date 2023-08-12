@@ -1,4 +1,4 @@
-package com.tel_ran.rent_company.dto;
+package com.tel_ran.rent_company.dto.car;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,5 +1,6 @@
-package com.tel_ran.rent_company.dto;
+package com.tel_ran.rent_company.dto.car;
 
+import com.tel_ran.rent_company.dto.record.RecordDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

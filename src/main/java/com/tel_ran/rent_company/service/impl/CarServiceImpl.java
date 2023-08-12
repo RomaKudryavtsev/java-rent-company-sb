@@ -1,14 +1,14 @@
 package com.tel_ran.rent_company.service.impl;
 
-import com.tel_ran.rent_company.dto.AddCarRequestDto;
-import com.tel_ran.rent_company.dto.CarResponseDto;
-import com.tel_ran.rent_company.dto.RemoveCarDto;
+import com.tel_ran.rent_company.dto.car.AddCarRequestDto;
+import com.tel_ran.rent_company.dto.car.CarResponseDto;
+import com.tel_ran.rent_company.dto.car.RemoveCarDto;
 import com.tel_ran.rent_company.entity.Car;
 import com.tel_ran.rent_company.entity.RentRecord;
 import com.tel_ran.rent_company.entity.State;
-import com.tel_ran.rent_company.exception.CarExistsException;
-import com.tel_ran.rent_company.exception.CarNotFoundException;
-import com.tel_ran.rent_company.exception.ModelNotFoundException;
+import com.tel_ran.rent_company.exception.car.CarExistsException;
+import com.tel_ran.rent_company.exception.car.CarNotFoundException;
+import com.tel_ran.rent_company.exception.model.ModelNotFoundException;
 import com.tel_ran.rent_company.repo.CarRepo;
 import com.tel_ran.rent_company.repo.ModelRepo;
 import com.tel_ran.rent_company.repo.RecordRepo;

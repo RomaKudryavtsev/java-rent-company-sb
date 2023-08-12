@@ -1,5 +1,13 @@
 package com.tel_ran.rent_company.exception;
 
+import com.tel_ran.rent_company.exception.car.CarExistsException;
+import com.tel_ran.rent_company.exception.car.CarInUseException;
+import com.tel_ran.rent_company.exception.car.CarNotFoundException;
+import com.tel_ran.rent_company.exception.car.CarToBeRemovedException;
+import com.tel_ran.rent_company.exception.driver.DriverExistsException;
+import com.tel_ran.rent_company.exception.driver.DriverNotFoundException;
+import com.tel_ran.rent_company.exception.model.ModelExistsException;
+import com.tel_ran.rent_company.exception.model.ModelNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

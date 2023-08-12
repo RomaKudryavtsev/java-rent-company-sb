@@ -1,4 +1,4 @@
-package com.tel_ran.rent_company.dto;
+package com.tel_ran.rent_company.dto.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,15 +6,18 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddCarRequestDto {
+public class StatistGetModelsDto {
     @NotBlank
-    String regNumber;
+    String fromDate;
     @NotBlank
-    String color;
-    @NotBlank
-    String modelName;
+    String toDate;
+    @Positive
+    Integer fromAge;
+    @Positive
+    Integer toAge;
 }

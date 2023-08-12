@@ -1,10 +1,9 @@
 package com.tel_ran.rent_company.util;
 
-import com.tel_ran.rent_company.dto.RecordDto;
-import com.tel_ran.rent_company.dto.RentCarDto;
+import com.tel_ran.rent_company.dto.record.RecordDto;
+import com.tel_ran.rent_company.dto.record.RentCarDto;
 import com.tel_ran.rent_company.entity.RentRecord;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class RecordMapper {

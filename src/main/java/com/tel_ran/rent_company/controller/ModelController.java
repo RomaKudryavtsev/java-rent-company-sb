@@ -1,7 +1,7 @@
 package com.tel_ran.rent_company.controller;
 
-import com.tel_ran.rent_company.dto.ModelDto;
-import com.tel_ran.rent_company.dto.StatistGetModelsDto;
+import com.tel_ran.rent_company.dto.model.ModelDto;
+import com.tel_ran.rent_company.dto.model.StatistGetModelsDto;
 import com.tel_ran.rent_company.service.IModelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
