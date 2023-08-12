@@ -32,13 +32,13 @@ public class CarController {
 
     @ApiOperation(value = "Delete car by registration number")
     @DeleteMapping(value = MANAGER_CAR_PATH + "/{reg_number}")
-    public RemoveCarDto removeCarByRegNumber(@PathVariable (name = "reg_number") String regNumber) {
+    public RemoveCarDto removeCarByRegNumber(@PathVariable(name = "reg_number") String regNumber) {
         return carService.removeCarByRegNumber(regNumber);
     }
 
     @ApiOperation(value = "Delete cars of certain model")
     @DeleteMapping(value = MANAGER_CAR_PATH + "/model/{model_name}")
-    public List<RemoveCarDto> removeCarsByModelName(@PathVariable (name = "model_name") String modelName) {
+    public List<RemoveCarDto> removeCarsByModelName(@PathVariable(name = "model_name") String modelName) {
         return carService.removeCarsByModelName(modelName);
     }
 
@@ -50,7 +50,7 @@ public class CarController {
 
     @ApiOperation(value = "Find car by registration number")
     @GetMapping(value = DRIVER_CAR_PATH + "/{reg_number}")
-    public CarResponseDto getCarByRegNumber (@PathVariable(name = "reg_number") String regNumber) {
+    public CarResponseDto getCarByRegNumber(@PathVariable(name = "reg_number") String regNumber) {
         return carService.getCarByRegNumber(regNumber);
     }
 

@@ -20,7 +20,7 @@ public class DriverServiceImpl implements IDriverService {
     DriverRepo driverRepo;
 
     private void checkIfDriverExists(Long licenseId) {
-        if(driverRepo.existsByLicenseId(licenseId)) {
+        if (driverRepo.existsByLicenseId(licenseId)) {
             throw new DriverExistsException("Driver already exists");
         }
     }

@@ -20,7 +20,7 @@ public class ModelServiceImpl implements IModelService {
     ModelRepo modelRepo;
 
     private void checkIfModelExist(String modelName) {
-        if(modelRepo.existsByModelName(modelName)) {
+        if (modelRepo.existsByModelName(modelName)) {
             throw new ModelExistsException("Model already exists");
         }
     }

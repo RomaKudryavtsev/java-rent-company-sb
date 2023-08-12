@@ -25,7 +25,7 @@ public class DriverController {
 
     @ApiOperation(value = "Add new driver")
     @PostMapping(value = CLERK_DRIVER_PATH)
-    public DriverDto addDriver (@Valid @RequestBody DriverDto driverDto) {
+    public DriverDto addDriver(@Valid @RequestBody DriverDto driverDto) {
         return driverService.addDriver(driverDto);
     }
 
@@ -37,7 +37,7 @@ public class DriverController {
 
     @ApiOperation(value = "Find driver by license id")
     @GetMapping(value = DRIVER_DRIVER_PATH + "/{license_id}")
-    public DriverDto getDriverDataByLicenseId (@PathVariable(name = "license_id") Long licenseId) {
+    public DriverDto getDriverDataByLicenseId(@PathVariable(name = "license_id") Long licenseId) {
         return driverService.getDriverDataByLicenseId(licenseId);
     }
 
